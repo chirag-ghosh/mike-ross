@@ -1,8 +1,8 @@
 import express from 'express'
+import dotenv from 'dotenv'
 
+dotenv.config()
 const app = express()
-
-const PORT = 5000
 
 app.get('/', (req: express.Request, res: express.Response) => {
     res.json({
@@ -10,6 +10,6 @@ app.get('/', (req: express.Request, res: express.Response) => {
     })
 })
 
-app.listen(PORT, () => {
-    console.log(`Mike Ross is up and running at PORT: ${PORT}`)
+app.listen(process.env.PORT, () => {
+    console.log(`Mike Ross is up and running at PORT: ${process.env.PORT}`)
 })

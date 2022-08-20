@@ -1,4 +1,5 @@
 import express from "express";
+import moment from 'moment'
 import { defaultEmails } from "../config/constants";
 import Case from "../models/case";
 import { saveToMeilisearch } from "../utils/meiliScript";
@@ -28,6 +29,15 @@ router.get('/', (req: express.Request, res: express.Response) => {
         }
     })
     res.json({status: "Scheduled scrap to be saved in db and meilisearch"})
+})
+
+router.get("/hearings", async (req: express.Request, res: express.Response) => {
+    const requiredMoment = moment().add(parseInt(process.env.REMINDER_TIME || "7"), 'days').format("DD-MM-YYYY")
+    const cases = await Case.find({tentative_date: requiredMoment})
+    if(cases.length !== 0) {
+        sendMail("Upcoming hearings", `${cases.length} case(s) have hearings on ${requiredMoment} having diary numbers: ${cases.map((value) => value.diary_number).join(", ")}. Kindly have a look.`, defaultEmails)
+    }
+    res.json({status: "Scheduled hearings for upcoming cases if any"})
 })
 
 export default router

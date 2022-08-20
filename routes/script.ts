@@ -1,7 +1,9 @@
 import express from "express";
+import { defaultEmails } from "../config/constants";
 import Case from "../models/case";
 import { saveToMeilisearch } from "../utils/meiliScript";
 import getScrapedData from "../utils/scrap";
+import { sendMail } from "../utils/sendMail";
 const router = express.Router()
 
 router.get('/', (req: express.Request, res: express.Response) => {
@@ -12,7 +14,10 @@ router.get('/', (req: express.Request, res: express.Response) => {
             const exist = await Case.findOne({hash: caseDetails.hash})
             if(!exist) {
                 Case.create(caseDetails)
-                    .then((value) => console.log("Added to db: " + value.diary_number))
+                    .then((value) => {
+                        console.log("Added to db: " + value.diary_number)
+                        sendMail("New case found", `A new legal case related to UGC has been filed with diary number: ${caseDetails.diary_number}. Kindly have a look`, defaultEmails)
+                    })
                     .catch((err) => console.log("Error creating: ", caseDetails.diary_number, err))
             }
             else {

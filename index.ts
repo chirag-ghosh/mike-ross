@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 
 import dbConnect from './utils/database'
 
+import caseRoute from './routes/case'
 import scriptRoute from './routes/script'
 import healthRoute from './routes/health'
 import testRoute from './routes/test'
@@ -17,6 +18,7 @@ dbConnect()
 app.use('/', healthRoute)
 app.use('/test', testRoute)
 app.use('/script', scriptRoute)
+app.use('/case', caseRoute)
 
 app.listen(process.env.PORT, () => {
     console.log(`Mike Ross is up and running at PORT: ${process.env.PORT}`)

@@ -20,12 +20,12 @@ function getScrapedData() {
                 caseDetails.pet_advocates = [caseDetails.pet_advocate]
                 caseDetails.resp_advocates = caseDetails.resp_advocate
                 try {
-                    var extra = fs.readFileSync(pwd3 + "/Earlier_courts.html").toString()
+                    var extra = JSON.stringify(require(pwd3 + "/Earlier_courts.json"))
                     caseDetails.earlier_court = extra
                 }
                 catch(err) {}
                 try {
-                    var extra = fs.readFileSync(pwd3 + "/Inter_locutary_applications.html").toString()
+                    var extra = JSON.stringify(require(pwd3 + "/Inter_locutary_applications.json"))
                     caseDetails.inter_locutary_applications = extra
                 }
                 catch(err) {}
@@ -35,12 +35,12 @@ function getScrapedData() {
                 }
                 catch(err) {}
                 try {
-                    var extra = fs.readFileSync(pwd3 + "/Listing_dates.html").toString()
+                    var extra = JSON.stringify(require(pwd3 + "/Listing_dates.json"))
                     caseDetails.listing_dates = extra
                 }
                 catch(err) {}
                 try {
-                    var extra = fs.readFileSync(pwd3 + "/Notices.html").toString()
+                    var extra = JSON.stringify(require(pwd3 + "/Notices.json"))
                     caseDetails.notices = extra
                 }
                 catch(err) {}

@@ -1,4 +1,5 @@
 import express from "express";
+import MeiliSearch from "meilisearch";
 import moment from "moment";
 import Case from "../models/case";
 const router = express.Router()
@@ -30,6 +31,21 @@ router.get('/upcoming', async (req: express.Request, res: express.Response) => {
         }
     }
     res.json({data})
+})
+
+router.get('/search', async (req: express.Request, res: express.Response) => {
+    const query = req.query.query
+    const client = new MeiliSearch({
+        host: process.env.MEILI_URL || '',
+        apiKey: process.env.MEILI_KEY || ''
+    })
+    try {
+        const results = await client.index('cases').search(typeof query === 'string' ? query : "");
+        res.json(results)
+    }
+    catch(err) {
+        res.status(500).json(err)
+    }
 })
 
 export default router

@@ -17,4 +17,19 @@ router.get('/', async (req: express.Request, res: express.Response) => {
     }
 })
 
+router.get('/upcoming', async (req: express.Request, res: express.Response) => {
+    const data = []
+    for(var i = 0; i < 7; i++) {
+        const searchDate = moment().add(i, 'days').format("DD-MM-YYYY")
+        const casesCount = await Case.count({tentative_date: searchDate})
+        if(casesCount !== 0) {
+            data.push({
+                date: searchDate,
+                count: casesCount
+            })
+        }
+    }
+    res.json({data})
+})
+
 export default router

@@ -1,5 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 import dbConnect from './utils/database'
 
@@ -10,6 +11,8 @@ import testRoute from './routes/test'
 
 dotenv.config()
 const app = express()
+
+app.use(cors())
 
 dbConnect()
     .then(() => console.log('Database connected.'))

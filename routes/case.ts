@@ -48,4 +48,11 @@ router.get('/search', async (req: express.Request, res: express.Response) => {
     }
 })
 
+router.get('/:hash', async (req: express.Request, res: express.Response) => {
+    const hash = req.params.hash
+    const caseDetail = await Case.findOne({hash: hash})
+    if(caseDetail === null) res.status(404).json({error: "Case not found"})
+    else res.json({caseDetail})
+})
+
 export default router

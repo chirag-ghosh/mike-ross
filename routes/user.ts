@@ -4,11 +4,18 @@ const router = express.Router()
 
 router.post('/login', async (req: express.Request, res: express.Response) => {
     const {email, password} = req.body
-    if(!email) res.status(400).json({status: "Please provide email"})
-    if(!password) res.status(400).json({status: "Please provide password"})
+    if(!email) {
+        res.status(400).json({status: "Please provide email"})
+        return
+    }
+    if(!password) {
+        res.status(400).json({status: "Please provide password"})
+        return
+    }
     const user = await User.findOne({email})
     if(user === null) {
         res.status(404).json({status: "User not found. Please contact IT"})
+        return
     }
     if(user?.password === password) {
         res.json({status: "Logged", user: user})

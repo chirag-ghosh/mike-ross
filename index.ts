@@ -5,6 +5,7 @@ import cors from 'cors'
 import dbConnect from './utils/database'
 
 import caseRoute from './routes/case'
+import userRoute from './routes/user'
 import scriptRoute from './routes/script'
 import healthRoute from './routes/health'
 import testRoute from './routes/test'
@@ -13,6 +14,7 @@ dotenv.config()
 const app = express()
 
 app.use(cors())
+app.use(express.json())
 
 dbConnect()
     .then(() => console.log('Database connected.'))
@@ -22,6 +24,7 @@ app.use('/', healthRoute)
 app.use('/test', testRoute)
 app.use('/script', scriptRoute)
 app.use('/case', caseRoute)
+app.use('/user', userRoute)
 
 app.listen(process.env.PORT, () => {
     console.log(`Mike Ross is up and running at PORT: ${process.env.PORT}`)

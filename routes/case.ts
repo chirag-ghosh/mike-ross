@@ -39,8 +39,15 @@ router.get('/search', async (req: express.Request, res: express.Response) => {
         host: process.env.MEILI_URL || '',
         apiKey: process.env.MEILI_KEY || ''
     })
+    const {category, status, year} = req.query
+    const filters = []
+    if(category !== 'null') filters.push(`category = '${category}'`)
+    if(status !== 'null') filters.push(`caseType = ${status}`)
+    if(year !== 'null') filters.push(`year = ${year}`)
     try {
-        const results = await client.index('cases').search(typeof query === 'string' ? query : "");
+        const results = await client.index('cases').search(typeof query === 'string' ? query : "", {
+            filter: filters
+        });
         res.json(results)
     }
     catch(err) {

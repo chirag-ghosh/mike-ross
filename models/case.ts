@@ -25,6 +25,8 @@ interface CaseType {
     judgement?: string;
     listing_dates?: string;
     notices?: string;
+    caseType?: string;
+    year?: string;
 }
 
 const caseSchema = new Schema<CaseType>({
@@ -51,7 +53,9 @@ const caseSchema = new Schema<CaseType>({
     inter_locutary_applications: String,
     judgement: String,
     listing_dates: String,
-    notices: String
+    notices: String,
+    caseType: String,
+    year: String
 });
 
 const Case = model<CaseType>('Case', caseSchema)

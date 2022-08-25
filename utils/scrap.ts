@@ -20,6 +20,8 @@ function getScrapedData() {
                 const temp = caseDetails.category.split('-').slice(1).join('-').split(" : ")
                 caseDetails.subCategory = temp.length > 1 ? temp[1] : ""
                 caseDetails.category = temp[0]
+                caseDetails.caseType = caseType
+                caseDetails.year = year
                 try {
                     var extra = JSON.stringify(require(pwd3 + "/Earlier_courts.json"))
                     caseDetails.earlier_court = extra

@@ -9,7 +9,12 @@ const router = express.Router()
 
 router.get('/', (req: express.Request, res: express.Response) => {
     const caseArray = getScrapedData()
-    // saveToMeilisearch('cases', caseArray)
+    try {
+        saveToMeilisearch('cases', caseArray)
+    }
+    catch(err) {
+        console.log(err)
+    }
     caseArray.map(async (caseDetails) => {
         if(caseDetails.diary_number) {
             const exist = await Case.findOne({hash: caseDetails.hash})

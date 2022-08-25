@@ -12,11 +12,13 @@ interface CaseType {
     status?: string;
     tentative_date?: string;
     category?: string;
+    categoryCode?: string;
+    subCategory?: string;
     act?: string;
-    petitioners?: string[];
+    petitioner?: string[];
     respondents?: string[];
-    pet_advocates?: string[];
-    resp_advocates?: string[];
+    pet_advocate?: string[];
+    resp_advocate?: string[];
     u_section?: string;
     earlier_court?: string;
     inter_locutary_applications?: string;
@@ -37,11 +39,13 @@ const caseSchema = new Schema<CaseType>({
     status: String,
     tentative_date: String,
     category: String,
+    categoryCode: String,
+    subCategory: String,
     act: String,
-    petitioners: Array,
+    petitioner: Array,
     respondents: Array,
-    pet_advocates: Array,
-    resp_advocates: Array,
+    pet_advocate: Array,
+    resp_advocate: Array,
     u_section: String,
     earlier_court: String,
     inter_locutary_applications: String,

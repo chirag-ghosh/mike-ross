@@ -17,7 +17,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
                 Case.create(caseDetails)
                     .then((value) => {
                         console.log("Added to db: " + value.diary_number)
-                        sendMail("New case found", `A new legal case related to UGC has been filed with diary number: ${caseDetails.diary_number}. Kindly have a look`, defaultEmails)
+                        //sendMail("New case found", `A new legal case related to UGC has been filed with diary number: ${caseDetails.diary_number}. Kindly have a look`, defaultEmails)
                     })
                     .catch((err) => console.log("Error creating: ", caseDetails.diary_number, err))
             }

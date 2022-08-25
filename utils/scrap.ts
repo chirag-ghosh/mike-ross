@@ -16,9 +16,10 @@ function getScrapedData() {
                 const caseDetails = require(pwd3 + "/Case_details.json")
                 caseDetails.id = crypto.createHash('sha256').update(caseDetails.diary_number).digest('hex')
                 caseDetails.hash = caseDetails.id
-                caseDetails.petitioners = [caseDetails.petitioner]
-                caseDetails.pet_advocates = [caseDetails.pet_advocate]
-                caseDetails.resp_advocates = caseDetails.resp_advocate
+                caseDetails.categoryCode = caseDetails.category.split('-')[0]
+                const temp = caseDetails.category.split('-').slice(1).join('-').split(" : ")
+                caseDetails.subCategory = temp.length > 1 ? temp[1] : ""
+                caseDetails.category = temp[0]
                 try {
                     var extra = JSON.stringify(require(pwd3 + "/Earlier_courts.json"))
                     caseDetails.earlier_court = extra

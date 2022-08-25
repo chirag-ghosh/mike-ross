@@ -9,7 +9,7 @@ const router = express.Router()
 
 router.get('/', (req: express.Request, res: express.Response) => {
     const caseArray = getScrapedData()
-    saveToMeilisearch('cases', caseArray)
+    // saveToMeilisearch('cases', caseArray)
     caseArray.map(async (caseDetails) => {
         if(caseDetails.diary_number) {
             const exist = await Case.findOne({hash: caseDetails.hash})
@@ -28,7 +28,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
             }
         }
     })
-    res.json({status: "Scheduled scrap to be saved in db and meilisearch"})
+    res.json({status: "Scheduled scrap to be saved in db"})
 })
 
 router.get("/hearings", async (req: express.Request, res: express.Response) => {

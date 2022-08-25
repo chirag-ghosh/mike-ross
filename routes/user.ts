@@ -25,16 +25,31 @@ router.post('/login', async (req: express.Request, res: express.Response) => {
 
 router.post('/signup', async (req: express.Request, res: express.Response) => {
     const {name, email, password, isAdmin, categoryAccess} = req.body
-    if(!name) res.status(400).json({status: "Please provide name"})
-    if(!email) res.status(400).json({status: "Please provide email"})
-    if(!password) res.status(400).json({status: "Please provide password"})
-    if(!isAdmin) res.status(400).json({status: "Please check whether user is Admin"})
-    if(!categoryAccess) res.status(400).json({status: "Please provide category access list"})
+    if(!name) {
+        res.status(400).json({status: "Please provide name"})
+        return
+    }
+    if(!email) {
+        res.status(400).json({status: "Please provide email"})
+        return
+    }
+    if(!password) {
+        res.status(400).json({status: "Please provide password"})
+        return
+    }
+    if(isAdmin === null || isAdmin === undefined) {
+        res.status(400).json({status: "Please check whether user is Admin"})
+        return
+    }
+    if(!categoryAccess) {
+        res.status(400).json({status: "Please provide category access list"})
+        return
+    }
 
     const existingUser = await User.findOne({email})
 
     if(existingUser) {
-        res.status(401).json({status: "Emil already exists"})
+        res.status(401).json({status: "Email already exists"})
     } 
     else {
         const newUser = new User({name, email, password, isAdmin, categoryAccess})

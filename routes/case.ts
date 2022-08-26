@@ -19,10 +19,13 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 })
 
 router.get('/upcoming', async (req: express.Request, res: express.Response) => {
+    const {category} = req.query
     const data = []
     for(var i = 0; i < 7; i++) {
         const searchDate = moment().add(i, 'days').format("DD-MM-YYYY")
-        const casesCount = await Case.count({tentative_date: searchDate})
+        let casesCount = 0
+        if(category === null || typeof category !== "string") casesCount = await Case.count({tentative_date: searchDate})
+        else casesCount = await Case.count({tentative_date: searchDate, category: category.split('---')})
         if(casesCount !== 0) {
             data.push({
                 date: searchDate,

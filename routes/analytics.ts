@@ -65,13 +65,35 @@ router.get('/categorywise', async (req: express.Request, res: express.Response) 
     count = 0
     temp.forEach((value) => count += value.value)
     data.pending.push({id: 'Others', label: 'Others', value: count})
-    
+
     res.json(data)
 })
 
 router.get('/', (req: express.Request, res: express.Response) => {
     const totalStats = require(__dirname + "/../analytics_data/total_number_of_cases.json")
     res.json(totalStats)
+})
+
+router.get('/recommendation', (req: express.Request, res: express.Response) => {
+    const {category} = req.query
+    if(typeof category === 'string') {
+        const advList = new Set()
+        const advObj: any = {}
+        const advStats: {name: string, disposed_cases: number, pending_cases: number, disposed: any, pending: any}[] = require(__dirname + "/../analytics_data/Advocate_details_with_case_category.json")
+        for(var i = 0; i < advStats.length; i++) {
+            if(advList.has(advStats[i].name)) {
+                advObj[advStats[i].name] += advStats[i].disposed[category] ?? 0
+            }
+            else advObj[advStats[i].name] = advStats[i].disposed[category] ?? 0
+        }
+        const advArr: {name: string, value: any}[] = []
+        Object.keys(advObj).forEach((key) => {
+            advArr.push({name: key, value: advObj[key]})
+        })
+        advArr.sort((a, b) => b.value - a.value)
+        res.json(advArr)
+    }
+    else res.status(400).json({status: "category missing"})
 })
 
 export default router

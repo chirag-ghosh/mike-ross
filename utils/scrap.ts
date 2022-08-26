@@ -33,7 +33,7 @@ function getScrapedData() {
                 }
                 catch(err) {}
                 try {
-                    var extra = fs.readFileSync(pwd3 + "/Judgement.html").toString()
+                    var extra = JSON.stringify(require(pwd3 + "/Judgement.json"))
                     caseDetails.judgement = extra
                 }
                 catch(err) {}

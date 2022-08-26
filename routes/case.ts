@@ -58,6 +58,20 @@ router.get('/search', async (req: express.Request, res: express.Response) => {
     }
 })
 
+router.get('/alert', async (req: express.Request, res: express.Response) => {
+    const cases = await Case.find({caseType: 'Pending'})
+    const filteredCases = cases.filter((caseDetail) => {
+        const duration = moment(caseDetail.last_listed_on, "DD-MM-YYYY").diff(moment(caseDetail.registered_on, "DD-MM-YYYY"))
+        return(!isNaN(duration))
+    })
+    filteredCases.sort((a, b) => {
+        const aDuration = moment(a.last_listed_on, "DD-MM-YYYY").diff(moment(a.registered_on, "DD-MM-YYYY"))
+        const bDuration = moment(b.last_listed_on, "DD-MM-YYYY").diff(moment(b.registered_on, "DD-MM-YYYY"))
+        return bDuration - aDuration
+    })
+    res.json(filteredCases.slice(0, 100))
+})
+
 router.get('/:hash', async (req: express.Request, res: express.Response) => {
     const hash = req.params.hash
     const caseDetail = await Case.findOne({hash: hash})

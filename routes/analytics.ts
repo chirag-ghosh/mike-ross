@@ -96,4 +96,9 @@ router.get('/recommendation', (req: express.Request, res: express.Response) => {
     else res.status(400).json({status: "category missing"})
 })
 
+router.get('/judgement', (req: express.Request, res: express.Response) => {
+    const judgement = require('../analytics_data/disposed_judgement.json')
+    res.json(judgement)
+})
+
 export default router
